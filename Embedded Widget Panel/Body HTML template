@@ -1,0 +1,30 @@
+<div class="panel-embedder panel panel-default b">
+
+  <div class="panel-heading" ng-if="options.title || options.short_description">
+    <h3 ng-if="options.title" class="panel-title">{{::options.title}}</h3>
+    <span ng-if="options.short_description" class="m-t-xs">
+      {{::options.short_description}}
+    </span>
+  </div>
+
+  <div class="panel-body">
+    <div ng-if="options.enable_debug === true || options.enable_debug === 'true'" class="container">
+      <h5 class="text-danger">${Debug Mode: Embedded Widget Data Object}</h5>
+      <pre>{{data.embeddedWidget.data | json}}</pre>
+      <hr />
+    </div>
+
+    <div ng-if="data.embeddedWidget">
+      <sp-widget widget="data.embeddedWidget"></sp-widget>
+    </div>
+
+    <div ng-if="!data.embeddedWidget" class="panel-body text-center">
+      <span class="text-muted">${No widget selected to embed.}</span>
+    </div>
+  </div>
+
+  <div class="panel-footer pt-0" ng-if="options.url">
+    <a class="btn btn-default" role="button" ng-href="{{::options.url}}" target="{{::options.url_target}}">${View more}</a>
+  </div>
+
+</div>
