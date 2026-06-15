@@ -1,0 +1,28 @@
+.pt-0 {
+  padding-top: 0;
+}
+
+.panel-embedder {
+  /* Target the panel INSIDE the embedder's body */
+  .panel-body .panel {
+    border: none !important;
+    box-shadow: none !important;
+    margin-bottom: 0;
+
+    .panel-heading,
+    .panel-footer {
+      display: none !important;
+    }
+  }
+
+  /* Target immediate panel-body */
+  & > .panel-body {
+    padding: 0; 
+  }
+
+  .panel-footer {
+    background-color: unset !important;
+    border-top: none !important;
+    text-align: center;
+  }
+}
