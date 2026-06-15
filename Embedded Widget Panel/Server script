@@ -1,0 +1,19 @@
+(function() {
+    // Changed from widget_to_embed to widget_to_display
+    var widgetId = options.widget_to_display;
+    var params = {};
+
+    // Use the exact name from your schema: u_widget_params
+    if (options.u_widget_params) {
+        try {
+            params = JSON.parse(options.u_widget_params);
+        } catch (e) {
+            gs.warn("Widget Embedder: Error parsing JSON in u_widget_params. " + e.message);
+        }
+    }
+
+    if (widgetId) {
+        // Pass the parsed params object into the widget
+        data.embeddedWidget = $sp.getWidget(widgetId, params);
+    }
+})();
