@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2026-06-15 17:45:16">
+<sp_widget action="INSERT_OR_UPDATE">
+<category>custom</category>
+<client_script><![CDATA[api.controller=function() {
+  /* widget controller */
+  var c = this;
+};]]></client_script>
+<controller_as>c</controller_as>
+<css>.pt-0 {
+  padding-top: 0;
+}
+
+.panel-embedder {
+  /* Target the panel INSIDE the embedder's body */
+  .panel-body .panel {
+    border: none !important;
+    box-shadow: none !important;
+    margin-bottom: 0;
+
+    .panel-heading,
+    .panel-footer {
+      display: none !important;
+    }
+  }
+
+  /* Target immediate panel-body */
+  &amp; &gt; .panel-body {
+    padding: 0; 
+  }
+
+  .panel-footer {
+    background-color: unset !important;
+    border-top: none !important;
+    text-align: center;
+  }
+}</css>
+<data_table>sp_instance</data_table>
+<demo_data/>
+<description>Allows for an embedded widget and its instance options (json format) to be displayed around a flexible bootstrap panel with options for a custom title, short description, and more details link.</description>
+<docs display_value=""/>
+<field_list/>
+<has_preview>false</has_preview>
+<id>embedded-widget-panel</id>
+<internal>false</internal>
+<link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+<name>Embedded Widget Panel</name>
+<option_schema>[{"displayValue":"Widget","name":"widget_to_display","section":"other","label":"Widget to Display","type":"reference","value":"sp_widget","ed":{"reference":"sp_widget"}},{"name":"u_widget_params","section":"other","default_value":"{\"value1\": \"\", \"value2\": \"\", \"value3\": \"\"}","label":"Widget Parameters","type":"json"},{"name":"title","section":"other","label":"Title","type":"string"},{"name":"short_description","section":"other","label":"Short Description","type":"string"},{"hint":"More Details Link","name":"url","section":"other","label":"HREF / URL","type":"string"},{"name":"url_target","section":"other","default_value":"","label":"URL target","type":"choice","choices":[{"label":"_blank","value":"_blank"},{"label":"_self","value":"_self"},{"label":"_parent","value":"_parent"},{"label":"_top","value":"_top"}]},{"name":"enable_debug","section":"other","default_value":"false","label":"Enable Debug Mode","type":"boolean"}]</option_schema>
+<public>false</public>
+<roles/>
+<script><![CDATA[(function() {
+    // Changed from widget_to_embed to widget_to_display
+    var widgetId = options.widget_to_display;
+    var params = {};
+
+    // Use the exact name from your schema: u_widget_params
+    if (options.u_widget_params) {
+        try {
+            params = JSON.parse(options.u_widget_params);
+        } catch (e) {
+            gs.warn("Widget Embedder: Error parsing JSON in u_widget_params. " + e.message);
+        }
+    }
+
+    if (widgetId) {
+        // Pass the parsed params object into the widget
+        data.embeddedWidget = $sp.getWidget(widgetId, params);
+    }
+})();]]></script>
+<servicenow>false</servicenow>
+<sys_class_name>sp_widget</sys_class_name>
+<sys_created_by>admin</sys_created_by>
+<sys_created_on>2026-06-08 19:54:21</sys_created_on>
+<sys_id>6c49b1a697d50310226b793de053af6b</sys_id>
+<sys_mod_count>61</sys_mod_count>
+<sys_name>Embedded Widget Panel</sys_name>
+<sys_package display_value="Global" source="global">global</sys_package>
+<sys_policy/>
+<sys_scope display_value="Global">global</sys_scope>
+<sys_update_name>sp_widget_6c49b1a697d50310226b793de053af6b</sys_update_name>
+<sys_updated_by>admin</sys_updated_by>
+<sys_updated_on>2026-06-15 17:45:05</sys_updated_on>
+<template><![CDATA[<div class="panel-embedder panel panel-default b">
+
+  <div class="panel-heading" ng-if="options.title || options.short_description">
+    <h3 ng-if="options.title" class="panel-title">{{::options.title}}</h3>
+    <span ng-if="options.short_description" class="m-t-xs">
+      {{::options.short_description}}
+    </span>
+  </div>
+
+  <div class="panel-body">
+    <div ng-if="options.enable_debug === true || options.enable_debug === 'true'" class="container">
+      <h5 class="text-danger">${Debug Mode: Embedded Widget Data Object}</h5>
+      <pre>{{data.embeddedWidget.data | json}}</pre>
+      <hr />
+    </div>
+
+    <div ng-if="data.embeddedWidget">
+      <sp-widget widget="data.embeddedWidget"></sp-widget>
+    </div>
+
+    <div ng-if="!data.embeddedWidget" class="panel-body text-center">
+      <span class="text-muted">${No widget selected to embed.}</span>
+    </div>
+  </div>
+
+  <div class="panel-footer pt-0" ng-if="options.url">
+    <a class="btn btn-default" role="button" ng-href="{{::options.url}}" target="{{::options.url_target}}">${View more}</a>
+  </div>
+
+</div>]]></template>
+</sp_widget>
+</unload>
